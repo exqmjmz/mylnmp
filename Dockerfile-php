@@ -13,7 +13,10 @@ RUN sed -i 's/127.0.0.1:9000/9000/g' /etc/php7/php-fpm.d/www.conf \
 	&& sed -i 's/user = nobody/user = www-data/g' /etc/php7/php-fpm.d/www.conf \
 	&& sed -i 's/group = nobody/group = www-data/g' /etc/php7/php-fpm.d/www.conf \
 	&& sed -i 's/user nginx/user www-data/g' /etc/nginx/nginx.conf
-RUN mkdir -p /run/nginx && mkdir -p /var/www/html && chown -R www-data:www-data /var/www
-EXPOSE 9000
-CMD ["nginx"]
-CMD ["php-fpm7","-F"]
+RUN mkdir -p /run/nginx \
+	&& wget -O /var/www/wordpress.tar.gz "https://cn.wordpress.org/latest-zh_CN.tar.gz" \ 
+	&& wget "https://github.com/ljm000/mylnmp/raw/master/go.sh" \
+	&& tar -zxvf /var/www/wordpress.tar.gz -C /var/www && mv /var/www/wordpress /var/www/html \
+	&& chown -R www-data:www-data /var/www 
+RUN rm /var/www/wordpress.tar.gz
+CMD ["sh","go.sh"]
