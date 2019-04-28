@@ -19,4 +19,5 @@ RUN mkdir -p /run/nginx \
 	&& tar -zxvf /var/www/wordpress.tar.gz -C /var/www && mv /var/www/wordpress /var/www/html \
 	&& chown -R www-data:www-data /var/www 
 RUN rm /var/www/wordpress.tar.gz
+VOLUME /var/www/html
 CMD ["sh","go.sh"]
