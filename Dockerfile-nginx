@@ -1,0 +1,8 @@
+FROM alpine:3.8
+RUN	apk --update add nginx
+RUN set -x \ && adduser -u 82 -D -S -G www-data www-data
+RUN mkdir -p /run/nginx \
+    && wget -O /etc/nginx/conf.d/default.conf "https://raw.githubusercontent.com/ljm000/mylnmp/master/default.conf"
+RUN sed -i 's/user nginx/user www-data/g' /etc/nginx/nginx.conf
+
+CMD ["nginx", "-g", "daemon off;"]
